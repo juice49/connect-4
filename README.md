@@ -27,7 +27,7 @@ The winning line is:
 ## Todo
 
 - Implement a `placeCounter` function that produces a new game state with a given
-players counter dropped on a given column.
+player's counter dropped on a given column.
 
 ## Ideas
 
