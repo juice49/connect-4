@@ -20,5 +20,8 @@
     "@babel/preset-env": "^7.7.1",
     "@babel/preset-react": "^7.7.0",
     "react-hot-loader": "^4.12.16"
-  }
+  },
+  "browserslist": [
+    "last 1 firefox version"
+  ]
 }
