@@ -8,28 +8,22 @@ import Cell from './cell'
 const gridSize = [7,6]
 const winningLineLength = 4
 
-const state = [
-  null, null, null, null, null, null, null,
-  null, null, null, null, null, null, null,
-  null, 1   , null, null, null, null, null,
-  null, 0   , 1   , null, null, null, null,
-  null, 0   , 0   , 1   , null, null, null,
-  1   , 1   , 0   , 0   , 1   , 0   , null
-]
-
-console.log(findWin(state, gridSize, winningLineLength))
-
 const App = () => {
-  const { cells, placeCounter } = useConnect4(gridSize)
+  const { cells, placeCounter, winningLine } = useConnect4(gridSize)
 
   return (
-    <Board gridSize={gridSize}>
-      {cells.map((value, index) => (
-        <Cell key={index} onClick={() => placeCounter(index)}>
-          {value}
-        </Cell>
-      ))}
-    </Board>
+    <>
+      <Board gridSize={gridSize}>
+        {cells.map((value, index) => (
+          <Cell key={index} onClick={() => placeCounter(index)}>
+            {value}
+          </Cell>
+        ))}
+      </Board>
+      {winningLine && (
+        <p>Winner: {JSON.stringify(winningLine)}</p>
+      )}
+    </>
   )
 }
 
