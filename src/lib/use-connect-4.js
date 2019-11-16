@@ -7,18 +7,21 @@ import getNextCellInColumn from './get-next-cell-in-column'
 
 export default function useConnect4 (gridSize) {
   const [cells, setCells] = useState(() => generateCells(gridSize))
-  const [value, setValue] = useState(0)
+  const [nextValue, setNextValue] = useState(0)
   const winningLine = findWin(cells, gridSize, 4)
+  const winningValue = winningLine && cells[winningLine[0]]
 
   const placeCounter = index => {
-    setCells(cells => insertCell(gridSize, cells, index, value))
-    setValue(1 - value)
+    setCells(cells => insertCell(gridSize, cells, index, nextValue))
+    setNextValue(1 - nextValue)
   }
 
   return {
     placeCounter,
     cells,
-    winningLine
+    nextValue,
+    winningLine,
+    winningValue
   }
 }
 
