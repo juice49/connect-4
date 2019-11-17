@@ -23,7 +23,10 @@ const App = () => {
     <>
       <Board gridSize={gridSize}>
         {cells.map((value, index) => (
-          <Cell key={index} onClick={() => placeCounter(index)}>
+          <Cell
+            key={index} onClick={() => placeCounter(index)}
+            win={winningLine && winningLine.includes(index)}
+          >
             {(value !== null) && value + 1}
           </Cell>
         ))}
