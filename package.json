@@ -5,23 +5,18 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "parcel src/index.html"
+    "dev": "next",
+    "build": "next build",
+    "postbuild": "next export",
+    "start": "next start"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "parcel": "^1.12.4",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "styled-components": "^4.4.1"
   },
-  "devDependencies": {
-    "@babel/preset-env": "^7.7.1",
-    "@babel/preset-react": "^7.7.0",
-    "react-hot-loader": "^4.12.16"
-  },
-  "browserslist": [
-    "last 1 firefox version"
-  ]
+  "devDependencies": {}
 }
