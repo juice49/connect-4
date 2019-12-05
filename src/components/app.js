@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { hot } from 'react-hot-loader'
 import findWin from '../lib/find-win'
 import useConnect4 from '../lib/use-connect-4'
 import Board from './board'
@@ -44,4 +43,4 @@ const App = () => {
   )
 }
 
-export default hot(module)(App)
+export default App
