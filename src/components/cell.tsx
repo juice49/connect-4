@@ -1,9 +1,13 @@
 import styled from 'styled-components'
 
-const Cell = styled.div`
+interface CellProps {
+  win?: boolean
+}
+
+const Cell = styled.div<CellProps>`
   outline: 2px solid pink;
 
-  ${props => props.win && `
+  ${(props: CellProps) => props.win && `
     background-color: green;
   `}
 `
