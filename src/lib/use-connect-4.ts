@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import GridSize from '../types/grid-size'
-import getColumn from './get-column'
+import CellValue from '../types/cell-value'
+import getCoordinates from './get-coordinates'
 import findWin from './find-win'
 import generateCells from './generate-cells'
 import getNextCellInColumn from './get-next-cell-in-column'
-
-type CellValue = 0 | 1 | null
 
 interface Connect4Api {
   placeCounter: (index: number) => void,
@@ -21,11 +20,11 @@ export default function useConnect4 (
 ): Connect4Api {
   const [cells, setCells] = useState(() => generateCells(gridSize))
   const [nextValue, setNextValue] = useState<CellValue>(0)
-  const winningLine = findWin(cells, gridSize, winningLineLength)
+  const winningLine = findWin(gridSize, cells, winningLineLength)
   const winningValue = winningLine && cells[winningLine[0]]
 
-  const placeCounter = (index: number) => {
-    setCells(cells => insertCell(gridSize, cells, index, nextValue))
+  const placeCounter = (cell: number) => {
+    setCells(cells => insertCell(gridSize, cells, cell, nextValue))
     setNextValue((1 - nextValue) as CellValue)
   }
 
@@ -41,18 +40,18 @@ export default function useConnect4 (
 function insertCell (
   gridSize: GridSize,
   cells: CellValue[],
-  index: number,
+  cell: number,
   value: CellValue
 ): CellValue[] {
   const nextCells = [...cells]
-  const columnIndex = getColumn(gridSize[0], index)
-  const cell = getNextCellInColumn(gridSize, columnIndex, cells)
+  const [columnIndex] = getCoordinates(gridSize, cell)
+  const nextCell = getNextCellInColumn(gridSize, columnIndex, cells)
 
-  if (cell === null) {
+  if (nextCell === null) {
     // xxx handle illegal move
     return nextCells
   }
 
-  nextCells[cell] = value
+  nextCells[nextCell] = value
   return nextCells
 }

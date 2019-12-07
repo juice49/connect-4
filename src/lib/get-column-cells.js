@@ -1,8 +1,8 @@
 import { y } from './navigators'
 
-export default function * getColumnCells ([gridWidth, gridHeight], cellIndex) {
+export default function * getColumnCells (gridSize, cell) {
   do {
-    yield cellIndex
-    cellIndex = y(cellIndex, 1, gridWidth)
-  } while (cellIndex < gridWidth * gridHeight)
+    yield cell
+    cell = y(gridSize, cell, 1)
+  } while (cell < gridSize[0] * gridSize[1])
 }
