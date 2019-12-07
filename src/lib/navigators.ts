@@ -6,7 +6,7 @@ export function x (
   gridSize: GridSize,
   cell: number,
   distance: number
-): number {
+): number | undefined {
   const [, currentRow] = getCoordinates(gridSize, cell)
   const targetCell = cell + distance
   const [, targetRow] = getCoordinates(gridSize, targetCell)
@@ -17,18 +17,26 @@ export function x (
 }
 
 export function y (
-  [gridWidth]: GridSize,
+  [gridWidth, gridHeight]: GridSize,
   cell: number,
   distance: number
-): number {
-  return cell + (distance * gridWidth)
+): number | undefined {
+  const targetCell = cell + (distance * gridWidth)
+  const gridLength = gridWidth * gridHeight
+
+  if (targetCell < gridLength) {
+    return targetCell
+  }
 }
 
 export function xy (
   gridSize: GridSize,
   cell: number,
   [distanceX, distanceY]: Coordinates
-): number {
+): number | undefined {
   const targetCellY = y(gridSize, cell, distanceY)
-  return x(gridSize, targetCellY, distanceX)
+
+  if (typeof targetCellY !== 'undefined') {
+    return x(gridSize, targetCellY, distanceX)
+  }
 }
