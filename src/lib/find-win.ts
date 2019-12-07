@@ -7,7 +7,7 @@ export default function findWin (
   gridSize: GridSize,
   cells: CellValue[],
   winningLineLength: number
-): CellValue[] | null {
+): number[] | null {
   const directions = [
     // Down
     (cell: number) => navigators.y(gridSize, cell, 1),
@@ -19,7 +19,11 @@ export default function findWin (
     (cell: number) => navigators.xy(gridSize, cell, [1, 1])
   ]
 
-  return cells.reduce((reduced, value, cell) => {
+  return cells.reduce((
+    reduced: number[] | null,
+    value: CellValue,
+    cell: number
+  ): number[] | null => {
     if (reduced) {
       return reduced
     }

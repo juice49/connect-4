@@ -1,4 +1,12 @@
-export default function findLine (cells, lineLength, value, navigator, line = [0]) {
+import CellValue from '../types/cell-value'
+
+export default function findLine (
+  cells: CellValue[],
+  lineLength: number,
+  value: CellValue,
+  navigator: (cell: number) => number | undefined,
+  line: number[] = [0]
+): number[] | null {
   if (lineLength === 1) {
     return line
   }
@@ -19,6 +27,5 @@ export default function findLine (cells, lineLength, value, navigator, line = [0
   }
 
   const nextLine = [...line, targetCellIndex]
-
   return findLine(cells, lineLength - 1, value, navigator, nextLine)
 }
