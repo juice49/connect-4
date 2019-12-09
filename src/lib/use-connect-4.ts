@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import GridSize from '../types/grid-size'
 import CellValue from '../types/cell-value'
+import CellConnectionTest from '../types/cell-connection-test'
 import getCoordinates from './get-coordinates'
 import findWin from './find-win'
 import generateCells from './generate-cells'
@@ -16,11 +17,19 @@ interface Connect4Api {
 
 export default function useConnect4 (
   gridSize: GridSize,
-  winningLineLength: number = 4
+  winningLineLength: number = 4,
+  onTestCell: (test: CellConnectionTest) => void = () => {}
 ): Connect4Api {
   const [cells, setCells] = useState(() => generateCells(gridSize))
   const [nextValue, setNextValue] = useState<CellValue>(0)
-  const winningLine = findWin(gridSize, cells, winningLineLength)
+
+  const winningLine = findWin(
+    gridSize,
+    cells,
+    winningLineLength,
+    onTestCell
+  )
+
   const winningValue = winningLine && cells[winningLine[0]]
 
   const placeCounter = (cell: number) => {

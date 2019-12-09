@@ -1,31 +1,41 @@
 import CellValue from '../types/cell-value'
+import CellConnectionTest from '../types/cell-connection-test'
 
 export default function findLine (
   cells: CellValue[],
   lineLength: number,
   value: CellValue,
   navigator: (cell: number) => number | undefined,
-  line: number[] = [0]
+  line: number[] = [0],
+  onTestCell: (test: CellConnectionTest) => void = () => {}
 ): number[] | null {
-  if (lineLength === 1) {
-    return line
+  while (line.length < lineLength) {
+    const targetCellIndex = navigator(line[line.length - 1])
+    const targetCellValue = cells[targetCellIndex]
+    const targetCellExists = typeof targetCellIndex !== 'undefined'
+
+    if (targetCellValue !== value) {
+      if (targetCellExists) {
+        onTestCell({
+          path: [targetCellIndex],
+          values: [targetCellValue],
+          success: false
+        })
+      }
+
+      return null
+    }
+
+    line = [...line, targetCellIndex]
+
+    onTestCell({
+      path: [targetCellIndex],
+      values: [targetCellValue],
+      ...(line.length === lineLength)
+        ? { success: true }
+        : {}
+    })
   }
 
-  const targetCellIndex = navigator(line[line.length - 1])
-  const targetCellValue = cells[targetCellIndex]
-
-  if (targetCellValue !== value) {
-    return null
-  }
-
-  if (targetCellIndex === null) {
-    return null
-  }
-
-  if (typeof targetCellIndex === 'undefined') {
-    return null
-  }
-
-  const nextLine = [...line, targetCellIndex]
-  return findLine(cells, lineLength - 1, value, navigator, nextLine)
+  return line
 }

@@ -1,12 +1,14 @@
 import GridSize from '../types/grid-size'
 import CellValue from '../types/cell-value'
+import CellConnectionTest from '../types/cell-connection-test'
 import * as navigators from './navigators'
 import findLine from './find-line'
 
 export default function findWin (
   gridSize: GridSize,
   cells: CellValue[],
-  winningLineLength: number
+  winningLineLength: number,
+  onTestCell: (test: CellConnectionTest) => void = () => {}
 ): number[] | null {
   const directions = [
     // Down
@@ -32,8 +34,32 @@ export default function findWin (
       return reduced
     }
 
+    onTestCell({
+      path: [cell],
+      values: [value]
+    })
+
     return directions.map(navigator => {
-      return findLine(cells, winningLineLength, value, navigator, [cell])
+      const path = [cell]
+      const values = [value]
+
+      return findLine(
+        cells,
+        winningLineLength,
+        value,
+        navigator,
+        [cell],
+        test => {
+          path.push(test.path[0])
+          values.push(test.values[0])
+
+          onTestCell({
+            ...test,
+            path,
+            values
+          })
+        }
+      )
     }).find(result => result)
   }, null)
 }
