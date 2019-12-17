@@ -18,11 +18,13 @@
     "next": "^9.1.4",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
+    "react-spring": "^8.0.27",
     "styled-components": "^4.4.1"
   },
   "devDependencies": {
     "@types/node": "^12.12.14",
     "@types/react": "^16.9.15",
+    "@types/styled-components": "^4.4.1",
     "babel-plugin-styled-components": "^1.10.6",
     "typescript": "^3.7.3"
   }

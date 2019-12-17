@@ -12,15 +12,16 @@ interface Connect4Api {
   cells: CellValue[],
   nextValue: CellValue,
   winningLine?: number[],
-  winningValue?: CellValue
+  winningValue?: CellValue,
 }
 
 export default function useConnect4 (
   gridSize: GridSize,
   winningLineLength: number = 4,
-  onTestCell: (test: CellConnectionTest) => void = () => {}
+  onTestCell: (test: CellConnectionTest) => void = () => {},
+  initialValue?: CellValue[]
 ): Connect4Api {
-  const [cells, setCells] = useState(() => generateCells(gridSize))
+  const [cells, setCells] = useState(() => initialValue || generateCells(gridSize))
   const [nextValue, setNextValue] = useState<CellValue>(0)
 
   const winningLine = findWin(
