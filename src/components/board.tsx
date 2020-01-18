@@ -7,16 +7,20 @@ interface BoardProps {
 }
 
 const Board = styled.div<BoardProps>`
-  display: inline-grid;
+  display: grid;
   position: relative;
   grid-gap: var(--grid-gap, 0);
-  /* padding: 2rem; */
+  width: 100%;
+  max-width: 33rem;
+  padding: var(--grid-gap, 0);
+
   ${(props: BoardProps) => `
-    grid-template-columns: repeat(${props.gridSize[0]}, 4rem);
+    grid-template-columns: repeat(${props.gridSize[0]}, 1fr);
     grid-template-rows: repeat(${props.gridSize[1]}, auto);
   `}
+
   ${(props: BoardProps) => props.decorative && `
-    grid-template-rows: repeat(${props.gridSize[1]}, 4rem);
+    grid-template-rows: repeat(${props.gridSize[1]}, 1fr);
   `}
 `
 

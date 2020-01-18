@@ -15,22 +15,31 @@ const colors = [
 const Cell = styled.div<CellProps>`
   position: relative;
 
-  ${(props: CellProps) => {
-    const hasValue = typeof props.value !== 'undefined' && props.value !== null
+  &:before {
+    display: block;
+    padding-top: 100%;
+    content: '';
+  }
 
-    if (hasValue && props.decorative) {
-      return `
-        background-color: ${colors[props.value]};
-        border-radius: 50%;
-      `
-    }
-  }}
+  &:after {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    content: '';
 
-  ${(props: CellProps) => props.win && `
-    background-color: #DA03D0;
-  `}
+    ${(props: CellProps) => {
+      const hasValue = typeof props.value !== 'undefined' && props.value !== null
 
-  outline: 1px solid red;
+      if (hasValue && props.decorative) {
+        return `
+          background-color: ${colors[props.value]};
+          border-radius: 50%;
+        `
+      }
+    }}
+  }
 `
 
 export default Cell
