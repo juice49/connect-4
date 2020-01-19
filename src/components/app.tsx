@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useSprings, animated } from 'react-spring'
-import useMeasure from 'react-use-measure'
 import { ResizeObserver as ResizeObserverPolyfill } from '@juggle/resize-observer'
 import GridSize from '../types/grid-size'
 import CellValue from '../types/cell-value'
-import Coordinates from '../types/coordinates'
 import useConnect4 from '../lib/use-connect-4'
+import useOverlay from '../lib/use-overlay'
 import getCoordinates from '../lib/get-coordinates'
 import BoardContainer, { BoardContainerItem } from './board-container'
 import Board from './board'
@@ -88,7 +87,7 @@ const App: React.FC<AppProps> = ({
     nextValue,
     winningValue,
     winningLine
-  } = useConnect4(gridSize, winningLineLength, () => {}, testData)
+  } = useConnect4(gridSize, winningLineLength, () => {})
 
   const [playerNames] = useState(['Player 1', 'Player 2'])
 
@@ -105,31 +104,7 @@ const App: React.FC<AppProps> = ({
     }
   }))
 
-  const [parentRef, parentRect] = useMeasure()
-  const [refA, boundsA] = useMeasure()
-  const [refB, boundsB] = useMeasure()
-
-  const refs = winningLine
-    ? {
-      [winningLine[0]]: refA,
-      [winningLine[winningLine.length - 1]]: refB
-    }
-    : {}
-
-  let relativeCoords = null
-
-  if (winningLine) {
-    relativeCoords = (winningLine ? [boundsA, boundsB] : []).map<Coordinates>(rect => {
-      if (!rect || !parentRect) {
-        return null
-      }
-
-      return [
-        (rect.left - parentRect.left) + (rect.width / 2),
-        (rect.top - parentRect.top) + (rect.height / 2)
-      ]
-    }) as [Coordinates, Coordinates]
-  }
+  const { parentRef, refs, coordinates } = useOverlay(winningLine)
 
   return (
     <Container
@@ -181,9 +156,7 @@ const App: React.FC<AppProps> = ({
                 decorative
               />
             ))}
-            {relativeCoords && (
-              <WinOverlay coordinates={relativeCoords} />
-            )}
+            <WinOverlay coordinates={coordinates} />
           </Board>
         </BoardContainerItem>
         <BoardContainerItem decorative>

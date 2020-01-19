@@ -11,6 +11,10 @@ const WinOverlay: React.FC<WinOverlayProps> = ({
   coordinates,
   strokeWidth = 20
 }) => {
+  if (coordinates === null) {
+    return null
+  }
+
   if (coordinates.some(coord => coord === null)) {
     return null
   }
